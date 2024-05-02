@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Flower Shop - Delivery Information</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    .top-buttons {
+      display: flex;
+      justify-content: center;
+      margin-bottom: 20px;
+    }
+    .top-buttons button {
+      padding: 10px 20px; /* Adjust as needed */
+      border: 2px solid green; /* Adjust as needed */
+    }
+    .delivery-info form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input[type="text"], select {
+      width: 200px; /* Adjust as needed */
+      margin-bottom: 10px; /* Adjust as needed */
+    }
+    input[type="submit"] {
+      background-color: green; /* Adjust as needed */
+      color: white; /* Adjust as needed */
+    }
+    .tracker {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 20px 0;
+    }
+    .step {
+      width: 30%;
+      text-align: center;
+      position: relative;
+    }
+    .step::before {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: -50%;
+      width: 100%;
+      height: 2px;
+      background-color: green;
+      z-index: -1;
+    }
+    .step:first-child::before {
+      left: 0;
+      width: 50%;
+    }
+    .step-name {
+      background-color: white;
+      padding: 0 10px;
+    }
+    .step.completed .step-name {
+      color: green;
+    }
+    .step.active .step-name {
+      color: blue;
+    }
+
+    .promo {
+  background-color: green;
+  color: white;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <h1 class="title">Flower Shop</h1>
+  </header>
+
+  <div class="tracker">
+    <div class="step completed">
+      <span class="step-name">Review</span>
+    </div>
+    <div class="step active">
+      <span class="step-name">Delivery</span>
+    </div>
+    <div class="step">
+      <span class="step-name">Done</span>
+    </div>
+  </div>
+
+  <div class="promo">
+    Save $10 on every delivery with an account
+  </div>
+
+  <div class="top-buttons">
+    <button class="signup" onclick="location.href='login.html'">Sign Up</button>
+    <button class="login" onclick="location.href='login.html'">Log In</button>
+  </div>
+
+  <div class="delivery-info">
+    <form>
+      <h2>RECIPIENT</h2>
+      <label for="first_name">First Name:</label>
+      <input type="text" id="first_name" name="first_name" required><br>
+      <label for="last-name">Last Name:</label>
+      <input type="text" id="last_name" name="last_name" required><br>
+      <label for="relationship">Relationship:</label>
+      <select id="relationship" name="relationship" required>
+        <option value="mother">Mother</option>
+        <option value="girlfriend">Girlfriend</option>
+        <option value="friend">Friend</option>
+        <option value="wife">Wife</option>
+        <!-- Add more options as needed -->
+      </select><br>
+      <h2>DELIVER TO</h2>
+      <label for="address">Address:</label>
+      <input type="text" id="address" name="address" required><br>
+      <small>We cannot ship to PO boxes</small><br>
+      <label for="apt-suite">Apt/Suite:</label>
+      <input type="text" id="apt-suite" name="apt-suite"><br>
+      <label for="city">City:</label>
+      <input type="text" id="city" name="city" required><br>
+      <label for="state">State:</label>
+      <select id="state" name="state" required>
+        <option value="AL">Alabama</option>
+        <option value="AK">Alaska</option>
+        <option value="IN">Indiana</option>
+
+       
+      </select><br>
+      <label for="zip">Zip Code:</label>
+      <input type="text" id="zip" name="zip" required><br>
+      <input type="submit" value="Continue">
+    </form>
+  </div>
+  <script>
+
+    window.onload = function() {
+      var isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (isLoggedIn) {
+        document.querySelector('.top-buttons').style.display = 'none';
+      }
+    };
+
+    document.querySelector('.signup').addEventListener('click', function(event) {
+      event.preventDefault();
+      storeFormData();
+      window.location.href = 'signup.html';
+    });
+
+    document.querySelector('.login').addEventListener('click', function(event) {
+      event.preventDefault();
+      storeFormData();
+      window.location.href = 'login.html';
+    });
+
+    document.querySelector('form').addEventListener('submit', function(event) {
+      event.preventDefault();
+      storeFormData();
+      window.location.href = 'place_order.html';
+    });
+
+    function storeFormData() {
+  var formData = {
+    firstName: document.getElementById('first_name').value,
+    lastName: document.getElementById('last_name').value,
+    relationship: document.getElementById('relationship').value,
+    address: document.getElementById('address').value + ', ' +
+             document.getElementById('apt-suite').value + ', ' +
+             document.getElementById('city').value + ', ' +
+             document.getElementById('state').value + ', ' +
+             document.getElementById('zip').value
+  };
+  localStorage.setItem('formData', JSON.stringify(formData));
+}
+  </script>
+</body>
+</html>

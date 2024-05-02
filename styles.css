@@ -1,0 +1,114 @@
+body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+header {
+  background-color: #f0f0f0;
+  padding: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.title {
+  margin: 0;
+}
+
+.header-buttons {
+  display: flex;
+  align-items: center;
+}
+
+.header-buttons button {
+  margin-left: 10px;
+  background-color: #ffffff;
+  border: none;
+  cursor: pointer;
+}
+
+.header-buttons button img {
+  width: 20px;
+}
+
+.filters {
+  margin-top: 10px;
+  display: inline-block; 
+}
+
+.sort {
+  margin-top: 10px;
+  float: right;
+}
+
+.filters span, .sort span {
+  margin-right: 10px;
+}
+
+.filters select, .sort select {
+  margin-right: 20px;
+}
+
+.basket {
+  display: flex;
+  align-items: center;
+}
+
+.basket-icon {
+  width: 30px;
+  margin-right: 5px;
+}
+
+.ad {
+  background-color: #ffb566;
+  display: flex;
+  align-items: center;
+}
+
+.ad-text {
+  flex-grow: 1;
+  text-align: right;
+  padding: 20px;
+}
+
+
+.bouquet-image {
+  width: 150px;
+  margin-left: 20px;
+}
+
+.ad p {
+  margin: 0;
+}
+
+.flower-card {
+  width: 200px;
+  margin: 10px;
+  padding: 10px;
+  border: 1px solid #ccc;
+  background-color: #fff;
+  text-align: center;
+}
+
+.flower-card img {
+  width: 100%;
+  height: auto;
+  margin-bottom: 10px;
+}
+
+.flower-cards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.flower-card {
+  flex: 0 0 calc(33% - 20px);
+  margin: 10px;
+}
+
+/* Optional: Hover effect */
+.flower-card:hover {
+  box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+}

@@ -1,0 +1,77 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Track Order</title>
+  <style>
+    body {
+  font-family: Arial, sans-serif;
+  margin: 0;
+  padding: 0;
+}
+
+    h1 {
+      text-align: center;
+      padding: 20px;
+      background-color: #333;
+      color: #fff;
+    }
+
+    #order-info {
+      width: 80%;
+      margin: 20px auto;
+      padding: 20px;
+      background-color: #fff;
+      border-radius: 5px;
+      box-shadow: 0px 0px 10px 0px rgba(0,0,0,0.1);
+    }
+
+    #order-info p {
+      margin-bottom: 10px;
+    }
+
+    #order-info p strong {
+      font-weight: bold;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <h1 class="title">Flower Shop</h1>
+        <div class="header-buttons">
+          <button class="track-order">Track Order</button>
+          <button class="help">Help</button>
+          <button class="cart"><img src="cart.png" alt="Cart Icon"></button>
+          <button class="user"><img src="user.png" alt="User Icon"></button>
+        </div>
+        <div class="basket">
+          <img src="basket.png" alt="Basket Icon" class="basket-icon">
+          <span id="basket-count">0</span>
+        </div>
+      </header>
+  <h1>Track Order</h1>
+  <div id="order-info">
+    <!-- Order information will be inserted here -->
+  </div>
+
+  <script>
+    window.onload = function() {
+      // Retrieve the order data from the local storage
+      var orderData = JSON.parse(localStorage.getItem('orderData'));
+
+      // Display the order data
+      var orderInfoDiv = document.getElementById('order-info');
+      orderInfoDiv.innerHTML = `
+        <p><strong>Username:</strong> ${orderData.username}</p>
+        <p><strong>Flower Name:</strong> ${orderData.flower_name}</p>
+        <p><strong>Delivery Address:</strong> ${orderData.delivery_address}</p>
+        <p><strong>Delivery Date:</strong> ${orderData.delivery_date}</p>
+        <p><strong>First Name:</strong> ${orderData.first_name}</p>
+        <p><strong>Last Name:</strong> ${orderData.last_name}</p>
+        <p><strong>Price:</strong> ${orderData.price}</p>
+      `;
+    };
+  </script>
+</body>
+</html>

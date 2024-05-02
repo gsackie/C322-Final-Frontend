@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Login Page</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+    }
+
+    header {
+      background-color: #f0f0f0;
+      padding: 10px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    main {
+      width: 80%;
+      margin: 0 auto;
+      text-align: center;
+    }
+
+    .auth-button {
+      border: 2px solid green;
+      background-color: transparent;
+      color: green;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .auth-button:hover {
+      background-color: green;
+      color: white;
+    }
+
+    .submit-button {
+      background-color: green;
+      color: white;
+      border: none;
+      padding: 10px 20px;
+      text-align: center;
+      text-decoration: none;
+      display: inline-block;
+      font-size: 16px;
+      margin: 4px 2px;
+      cursor: pointer;
+    }
+
+    .login-form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .login-form label {
+      margin: 10px 0;
+    }
+
+    .login-form input[type="email"],
+    .login-form input[type="password"] {
+      margin-bottom: 20px;
+    }
+  </style>
+</head>
+<body>
+    <header>
+        <h1 class="title">Flower Shop</h1>
+        <div class="header-buttons">
+          <button class="track-order">Track Order</button>
+          <button class="help">Help</button>
+          <button class="cart"><img src="cart.png" alt="Cart Icon"></button>
+          <button class="user"><img src="user.png" alt="User Icon"></button>
+        </div>
+        <div class="basket">
+          <img src="basket.png" alt="Basket Icon" class="basket-icon">
+          <span id="basket-count">0</span>
+        </div>
+      </header>
+
+  <main>
+    <h2>Sign up to save</h2>
+
+    <div class="auth-buttons">
+      <button class="auth-button login" onclick="changeToLogin()">Log in</button>
+      <button class="auth-button signup" onclick="changeToSignup()">Sign up</button>
+    </div>
+
+    <form class="login-form">
+        <label for="email">Email:</label>
+        <input type="email" id="email" required>
+      
+        <label for="password">Password:</label>
+        <input type="password" id="password" required>
+      
+        <input type="checkbox" id="show-password">
+        <label for="show-password">Show password</label>
+      
+        <button type="submit" id="auth-button" class="submit-button">Create An Account</button>
+        <p>By clicking 'Create an Account', you agree to the <a href="terms.html">Terms of Use</a> and <a href="privacy.html">Privacy Policy</a>.</p>
+      </form>
+  </main>
+
+  <script>
+    const form = document.querySelector('.login-form');
+    const emailInput = document.getElementById('email');
+    const passwordInput = document.getElementById('password');
+    const authButton = document.getElementById('auth-button');
+  
+    document.getElementById('show-password').addEventListener('change', function() {
+      if (this.checked) {
+        passwordInput.type = 'text';
+      } else {
+        passwordInput.type = 'password';
+      }
+    });
+  
+    function changeToLogin() {
+      authButton.textContent = 'Log in';
+      form.onsubmit = login;
+    }
+  
+    function changeToSignup() {
+      authButton.textContent = 'Create An Account';
+      form.onsubmit = signup;
+    }
+  
+    async function login(event) {
+      event.preventDefault();
+      const response = await fetch('http://localhost:8080/login', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify({
+          username: emailInput.value,
+          password: passwordInput.value
+        })
+      });
+      const data = await response.text();
+      console.log(data);
+    }
+  
+    async function signup(event) {
+  event.preventDefault();
+  const response = await fetch('http://localhost:8080/signup', {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/json'
+    },
+    body: JSON.stringify({
+      username: emailInput.value,
+      password: passwordInput.value
+    })
+  });
+
+  if (response.ok) {
+    // If account creation was successful, redirect to the home page
+    window.location.href = 'index.html';
+  } else {
+    // If there was an error, log it
+    const data = await response.text();
+    console.log(data);
+  }
+}
+  </script>
+</body>
+</html>

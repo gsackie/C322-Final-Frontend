@@ -1,0 +1,146 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Place Order</title>
+  <link rel="stylesheet" href="styles.css">
+  <style>
+    body {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      height: 100vh;
+      margin: 0;
+      background-color: #f9f9f9;
+      font-family: Arial, sans-serif;
+    }
+    h1, h2, p {
+      text-align: center;
+    }
+    #subtotal-card {
+      margin: 20px;
+      padding: 20px;
+      border: 1px solid #ccc;
+      border-radius: 10px;
+      background-color: #fff;
+      width: 80%;
+      max-width: 500px;
+    }
+    #place-order {
+      padding: 15px 30px;
+      font-size: 20px;
+      background-color: green;
+      color: white;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    #place-order:hover {
+      background-color: darkgreen;
+    }
+
+    .small-header {
+      font-size: 0.8em; 
+    }
+
+    .discount-info {
+  background-color: lightgreen;
+  color: black;
+  text-align: center;
+  padding: 10px;
+  margin-bottom: 20px;
+  display: none;
+}
+  </style>
+</head>
+<body>
+    <header>
+    <h1 class="title">Flower Shop</h1>
+    <div class="header-buttons">
+      <button class="track-order">Track Order</button>
+      <button class="help">Help</button>
+      <button class="cart"><img src="cart.png" alt="Cart Icon"></button>
+      <button class="user"><img src="user.png" alt="User Icon"></button>
+    </div>
+    <div class="basket">
+      <img src="basket.png" alt="Basket Icon" class="basket-icon">
+      <span id="basket-count">0</span>
+    </div>
+  </header>
+  <h2 class="small-header">Delivery Date:</h2> <p id="delivery_date">April 30, 2024</p>
+  <h2 class="small-header">Item Pricing:</h2> <p id="price">$74</p>
+  <h2 class="small-header">Delivery Address:</h2> <p id="delivery_address"></p>
+  <div id="subtotal-card">
+    <h2>Subtotal:</h2>
+    <p><strong>Delivery:</strong> $25.00</p>
+    <p><strong>Discount:</strong> $0.00</p>
+    <div class="discount-info">You are saving $10.00 on this order</div>
+    <p><strong>Tax:</strong> $0.00</p>
+    <p><strong>Total:</strong> <span id="total"></span></p>
+  </div>
+  <button id="place-order">Place Order</button>
+
+  <script>
+    window.onload = function() {
+      var formData = JSON.parse(localStorage.getItem('formData'));
+      document.getElementById('delivery_address').textContent = formData.firstName + ' ' + formData.lastName + ', ' + formData.address;
+    
+      var subtotal = 74 + 25.00;
+      var discount = 0.00;
+    
+      var isLoggedIn = localStorage.getItem('isLoggedIn');
+      if (isLoggedIn) {
+        discount = 10.00;
+        subtotal -= discount;
+        document.querySelector('.discount-info').style.display = 'block';
+      }
+    
+      document.getElementById('total').textContent = '$' + subtotal.toFixed(2);
+      document.querySelector('#subtotal-card strong:nth-child(3)').textContent = '$' + discount.toFixed(2);
+    
+      // Add event listener to the "Place Order" button
+      document.getElementById('place-order').addEventListener('click', function() {
+        // Prepare the order data
+        var orderData = {
+          username: formData.username,
+          flower_name: formData.flowerName,
+          delivery_address: formData.address,
+          delivery_date: document.getElementById('delivery_date').textContent,
+          first_name: formData.firstName,
+          last_name: formData.lastName,
+          price: subtotal
+        };
+    
+        // Send a POST request to the backend
+        fetch('http://localhost:8080/orders', {
+          method: 'POST',
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(orderData)
+        })
+        .then(response => response.json())
+        .then(data => {
+          if (data.status === 'OK') {
+            alert('Order placed successfully');
+    
+            // Save the order in the local storage
+            localStorage.setItem('orderData', JSON.stringify(orderData));
+    
+            // Redirect to the "Track Order" page
+            window.location.href = 'track_order.html';
+          } else {
+            alert('Failed to place order: ' + data.message);
+          }
+        })
+        .catch(error => {
+          console.error('Error:', error);
+        });
+      });
+    };
+    </script>
+</body>
+</html>
